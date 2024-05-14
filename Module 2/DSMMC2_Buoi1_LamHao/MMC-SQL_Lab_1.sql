@@ -17,22 +17,23 @@ CREATE TABLE Account (
     Email           VARCHAR(50),
     Username        VARCHAR(50),
     FullName        VARCHAR(50),
-    DepartmentID    INT REFERENCES Department.DepartmentID,
-    PositionID      INT REFERENCES Positions.PositionID,
+    DepartmentID    INT,
+    PositionID      INT,
     CreateDate      DATE
 );
 
 CREATE TABLE Groupss (
     GroupID     INT PRIMARY KEY AUTO_INCREMENT,
     GroupName   VARCHAR(50),
-    CreatorID   INT REFERENCES Account.AccountID,
+    CreatorID   INT,
     CreateDate  DATE
 );
 
 CREATE TABLE GroupAccount (
-    GroupID     INT REFERENCES Groupss.GroupID,
-    AccountID   INT REFERENCES Account.AccountID,
-    JoinDate    DATE
+    GroupID     INT,
+    AccountID   INT,
+    JoinDate    DATE,
+    PRIMARY KEY (GroupID, AccountID),
 );
 
 CREATE TABLE TypeQuestion (
@@ -48,16 +49,16 @@ CREATE TABLE CategoryQuestion (
 CREATE TABLE Question (
     QuestionID  INT PRIMARY KEY AUTO_INCREMENT,
     Content     VARCHAR(50),
-    CategoryID  INT REFERENCES CategoryQuestion.CategoryID,
-    TypeID      INT REFERENCES TypeQuestion.TypeID,
-    CreatorID   INT REFERENCES Account.AccountID,
+    CategoryID  INT,
+    TypeID      INT,
+    CreatorID   INT,
     CreateDate  DATE
 );
 
 CREATE TABLE Answer (
     AnswerID    INT PRIMARY KEY AUTO_INCREMENT,
     Content     VARCHAR(50),
-    QuestionID  INT REFERENCES Question.QuestionID,
+    QuestionID  INT,
     isCorrect   BOOLEAN
 );
 
@@ -65,13 +66,14 @@ CREATE TABLE Exam (
     ExamID      INT PRIMARY KEY AUTO_INCREMENT,
     Code        VARCHAR(50),
     Title       VARCHAR(50),
-    CategoryID  INT REFERENCES CategoryQuestion.CategoryID,
+    CategoryID  INT,
     Duration    INT,
-    CreatorID   INT REFERENCES Account.AccountID,
+    CreatorID   INT,
     CreateDate  DATE
 );
 
 CREATE TABLE ExamQuestion (
-    ExamID      INT REFERENCES Exam.ExamID,
-    QuestionID  INT REFERENCES Question.QuestionID
+    ExamID      INT,
+    QuestionID  INT,
+    PRIMARY KEY (ExamID, QuestionID),
 );
